@@ -10,5 +10,5 @@
   }
 
   /* Variável que armazena o endereço do site */
-  $urlBase = 'http://localhost/Projeto%204ºBimestre/';
+  $urlBase = 'http://localhost/Projeto-4-Bimestre/';
 ?>

@@ -3,7 +3,7 @@
 session_start();
 
 /* Importa a configuração com o PDO */
-require('conexao.php');
+require('../php/conexao.php');
 $rootDir = $_SERVER["DOCUMENT_ROOT"] . '/Projeto-4-Bimestre/';
 $uploaddir = $rootDir . 'tmp/img/';
 

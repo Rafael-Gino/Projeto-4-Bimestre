@@ -3,7 +3,7 @@
 session_start();
 
 /* Importa a configuração com o PDO */
-require('conexao.php');   
+require('php/conexao.php');   
 
 $rootDir = $_SERVER["DOCUMENT_ROOT"] . '/Projeto-4-Bimestre/';
 $uploaddir = $rootDir . 'tmp/img/';
@@ -19,33 +19,25 @@ if(isset($_POST['Cadastrar'])){
   
   if ($nome == '' || empty($nome)) {
     $erro = 'É preciso adicionar o nome';
-    print_r($_POST);
   } elseif ($sobrenome == '' || empty($sobrenome)) {
     $erro = 'É preciso adicionar o sobrnome';
-    print_r($_POST);
   } elseif ($usuario == '' || empty($usuario)) {
     $erro = 'É preciso adicionar o nome do usuario';
-    print_r($_POST);
   } elseif ($email == '' || empty($email)) {
     $erro = 'É preciso adicionar o email';
-    print_r($_POST);
   } elseif ($tipo == '' || empty($tipo)) {
     $erro = 'É preciso selecionar o tipo de conta';
-    print_r($_POST);
   } elseif ($senha == '' || empty($senha)) {
     $erro = 'É preciso adicionar a senha';
-    print_r($_POST);
   } elseif ($senhar == '' || empty($senhar)) {
     $erro = 'É preciso adicionar a confirmação de senha';
-    print_r($_POST);
   } elseif ($senha != $senhar) {
     $erro = 'As senhas devem ser iguais';
-    print_r($_POST);
   } elseif (empty($_FILES['Imagem'])) {
     $erro = 'Adicione uma imagem para o livro';
   } else {
     // importa a biblioteca para manipulação de imagens
-    require_once('../includes/canvas.php');
+    require_once('includes/canvas.php');
     $nomeImage = $_FILES['Imagem']['name'];
     $tmpImage = $_FILES['Imagem']['tmp_name'];
     $img = new canvas();
@@ -57,10 +49,11 @@ if(isset($_POST['Cadastrar'])){
     $data = [$nome,$sobrenome,$usuario,$email,$tipo,$hash,$nomeImage];
     //--------------------------------------------------------------------------------------//
     //Precisa ser editado
-    $reLivro = $pdo->prepare("INSERT INTO User (Nome_user,Sobrenome_user,User_user,Tipo_user,Email_user,Senha_user,Imagem_user) Value (?,?,?,?,?,?,?)");
+    $reLivro = $pdo->prepare("INSERT INTO User (Nome_user,Sobrenome_user,User_user,Email_user,Tipo_user,Senha_user,Imagem_user) Value (?,?,?,?,?,?,?)");
     $reLivro->execute($data);
     if($reLivro->rowCount() > 0){
       $mensagem="Cadastro feito com sucesso";
+      header("Location:login.php");
     } else{/* Se não, deu erro.*/
       $erro="Deu errado.";
     }  
@@ -90,7 +83,7 @@ if(isset($_POST['Cadastrar'])){
       <input type="email" name="Email" placeholder="Seu E-mail" autocomplete="false">
       <input type="password" name="Senha" placeholder="Sua senha" autocomplete="false">
       <input type="password" name="Senhar" placeholder="Confirmar senha" autocomplete="false"><br>
-      <input type="radio" name="Tipo" value="admin">Admin<br>
+      <input type="radio" name="Tipo" value="Admin">Admin<br>
       <input type="radio" name="Tipo" value="Escritor">Escritor<br>
       <input type="radio" name="Tipo" value="Leitor">Leitor<br>
       <input type="file" name="Imagem">
